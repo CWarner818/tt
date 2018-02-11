@@ -143,5 +143,7 @@ func init() {
 
 	addresses = confirmsCmd.Flags().StringSliceP("address", "a", nil, "Address to get confirmation information for")
 
+	viper.BindPFlag("address", confirmsCmd.PersistentFlags().Lookup("address"))
+
 	rand.Seed(time.Now().UnixNano())
 }

@@ -2,6 +2,9 @@ language: go
 go:
   - release
 
+script:
+ - go test -v -race ./...  
+
 if: tag IS present
 
 script:

@@ -60,10 +60,16 @@ the latest milestone.`,
 
 		milestone := nodeInfo.LatestMilestone
 
-		addrTrytes, err := toAddress(*addresses)
+		addr := *addresses
+		if *addresses == nil {
+			addr = []string{viper.GetString("confirms.address")}
+		}
+
+		addrTrytes, err := toAddress(addr)
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		txnsResponse, err := api.FindTransactions(&giota.FindTransactionsRequest{
 			Addresses: addrTrytes,
 		})
@@ -84,8 +90,6 @@ the latest milestone.`,
 			txnsResponse.Hashes = append(txnsResponse.Hashes[:r],
 				txnsResponse.Hashes[r+1:]...)
 		}
-
-		//pp.Print(hashes)
 
 		inclusionResponse, err := api.GetInclusionStates(txnsResponse.Hashes[:*limit],
 			[]giota.Trytes{milestone})
@@ -142,8 +146,6 @@ func init() {
 	limit = confirmsCmd.Flags().IntP("limit", "l", 500, "Limit checking to this number of transactions")
 
 	addresses = confirmsCmd.Flags().StringSliceP("address", "a", nil, "Address to get confirmation information for")
-
-	viper.BindPFlag("address", confirmsCmd.PersistentFlags().Lookup("address"))
 
 	rand.Seed(time.Now().UnixNano())
 }

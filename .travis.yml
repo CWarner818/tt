@@ -2,12 +2,17 @@ language: go
 go:
   - release
 
+stages:
+  - test
+  - name: deploy
+    if: tag IS set
+
 jobs:
   include:
     - stage: test
       script: 
         - go test -v -race ./... 
-    - stage: build
+    - stage: deploy 
       script: 
         - go get -u -v github.com/inconshreveable/mousetrap # needed for windows
         - GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -v -o tt-$TRAVIS_TAG-linux64
@@ -18,9 +23,6 @@ jobs:
         - md5sum tt-$TRAVIS_TAG-linux-arm64
         - md5sum tt-$TRAVIS_TAG-darwin64
         - md5sum tt-$TRAVIS_TAG-win64.exe
-      if: tag IS set 
-    - stage: deploy
-      if: tag IS set 
       deploy:
         provider: releases
         api_key: $GITHUB_OAUTH_TOKEN

@@ -5,7 +5,7 @@ go:
 stages:
   - test
   - name: deploy
-    if: tag IS set
+    if: tag IS present
 
 jobs:
   include:

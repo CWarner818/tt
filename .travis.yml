@@ -2,10 +2,6 @@ language: go
 go:
   - release
 
-script:
-  - go test -v -race ./...  
-
-
 jobs:
   include:
     - stage: test

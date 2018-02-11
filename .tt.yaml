@@ -1,0 +1,2 @@
+node: http://nodes.iota.fm:80
+timeout: 5s

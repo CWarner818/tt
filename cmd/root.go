@@ -93,6 +93,7 @@ func initConfig() {
 		}
 
 		// Search config in home directory with name ".tt" (without extension).
+		viper.AddConfigPath("./")
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".tt")
 	}

@@ -85,7 +85,8 @@ the latest milestone.`,
 				txnsResponse.Hashes[r+1:]...)
 		}
 
-		//pp.Print(txnsResponse.Hashes[:5])
+		//pp.Print(hashes)
+
 		inclusionResponse, err := api.GetInclusionStates(txnsResponse.Hashes[:*limit],
 			[]giota.Trytes{milestone})
 
